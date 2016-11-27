@@ -1,0 +1,21 @@
+{
+  "question": "Zucchipakoda",
+  "options": [
+    {
+      "title": "Imagine all the eatables, living in conFusion!"
+    },
+    {
+      "title": "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!"
+    }
+  ],
+  "participants": [
+    {
+      "email": "email1@domain.tld"
+    },
+    {
+      "email": "email2@domain.tld"
+    }
+  ]
+}
+
+{"username":"test", "password":"test"}
