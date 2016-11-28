@@ -1,11 +1,34 @@
 {
-  "question": "Zucchipakoda",
+  "question": "question1?",
+  "hours":"72",
   "options": [
     {
-      "title": "Imagine all the eatables, living in conFusion!"
+      "title": "yes"
     },
     {
-      "title": "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!"
+      "title": "no"
+    }
+  ],
+  "participants": [
+    {
+      "email": "uaimec@gmail.com"
+    },
+    {
+      "email": "raphtv@gmail.com"
+    }
+  ]
+}
+
+
+{
+  "question": "question1?",
+  "hours":"72",
+  "options": [
+    {
+      "title": "yes"
+    },
+    {
+      "title": "no"
     }
   ],
   "participants": [
@@ -18,4 +41,35 @@
   ]
 }
 
+
+
+{
+  "question": "question2?",
+  "options": [
+    {
+      "_id": "blue"
+    },
+    {
+      "_id": "red"
+    },
+    {
+      "_id": "orange"
+    }
+  ],
+  "participants": [
+    {
+      "email": "email2@domain.tld"
+    }
+  ]
+}
+
 {"username":"test", "password":"test"}
+
+
+
+/votes/583b7d0c6dd5506df0e5509e
+
+
+{"option":"583b7d0c6dd5506df0e550a2", "user":"583b7d0c6dd5506df0e550a0"}
+
+{"user":"583b99824118d87154a2020e", "option":"583b99824118d87154a20210"}

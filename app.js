@@ -7,9 +7,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var schedule = require('node-schedule');
 var config = require('./config');
 
+var voteUtils = require("./lib/vote.js");
+
+mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -21,6 +24,7 @@ db.once('open', function () {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var votes = require('./routes/votes');
+var vote = require('./routes/vote');
 
 var app = express();
 
@@ -46,6 +50,14 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/votes', votes);
+app.use('/vote', vote);
+
+// Schedule
+var rule = new schedule.RecurrenceRule();
+rule.minute = config.schedule;
+var j = schedule.scheduleJob('*/1 * * * *', function(){
+    voteUtils.check();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -16,27 +16,30 @@ voteRouter.route('/')
     .get(Verify.verifyOrdinaryUser, function (req, res, next) {
         // Get all user favorites and populate
         Vote.find({})
-            // .populate('postedBy dishes')
+            .populate('options postedBy')
             .exec(function (err, votes) {
             if(err) return next(err);
+            
             res.json(votes);
         })
     })
     
     // Create a vote
     .post(function (req, res, next) {
+        // User id
         var userId = req.decoded._doc._id;
         req.body.postedBy = userId;
+        // Total participation
+        var totalParticipation = Object.keys(req.body.options).length;
+        req.body.totalParticipation = totalParticipation;
+        // Date end
+        var dateEnd = new Date(new Date().getTime() + 60 * 60 * req.body.hours * 1000);
         
+        // Create vote
         Vote.create(req.body, function (err, vote) {
             if(err) return next(err);
-            console.log('Vote created!');
-            var id = vote._id;
-
-            res.writeHead(200, {
-                'Content-Type': 'text/plain'
-            })
-            res.end('Added the vote with id: ' + id);
+            
+            res.json(vote);
         })
     })
     
@@ -51,22 +54,31 @@ voteRouter.route('/:voteId')
 
     .all(Verify.verifyOrdinaryUser)
 
+    // Get a vote
     .get(function (req, res, next) {
+        // Get the vote
         Vote.findById(req.params.voteId, function (err, vote) {
             if(err) return next(err);
             res.json(vote);
         })
     })
 
+    // Vote an option
     .put(function (req, res, next) {
-        Vote.findByIdAndUpdate(req.params.voteId, {
-            $set: req.body
-        }, {
-            new: true
-        }, function (err, vote) {
+        // Get data
+        optionId = req.body.option;
+        userId = req.body.user;
+        
+        // Get the vote
+        Vote.findByIdAndUpdate(req.params.voteId, {$inc : { nbParticipation : 1 }}, function (err, vote) {
             if(err) return next(err);
-            res.json(vote);
-        })
+            // Update participant
+            Vote.update({'participants._id': userId}, {'$set': {
+                'participants.$.status': 1
+            }}, function(err, vote) {
+                res.json({"success":"true"});
+            });
+        });
     })
 
     .delete(function (req, res, next) {
